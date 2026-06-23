@@ -1,0 +1,2921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexora - Student Learning Platform | Build Your Future</title>
+    <meta name="description" content="Nexora: A complete learning platform for students with courses, placements, internships, and career guidance." />
+    <style>
+        :root {
+            --bg: #0c1020;
+            --surface: #121a33;
+            --surface-alt: #172043;
+            --text: #f4f7ff;
+            --muted: #a9b1d4;
+            --accent: #4f8bff;
+            --accent-soft: rgba(79, 138, 255, 0.21);
+            --success: #2bd387;
+            --warning: #ffb803;
+            --danger: #ff5f7a;
+            --radius: 24px;
+            --radius-sm: 16px;
+            --shadow: 0 24px 80px rgba(6, 19, 47, 0.32);
+            --border: 1px solid rgba(255, 255, 255, 0.08);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        *::selection {
+            background: rgba(79, 139, 255, 0.24);
+            color: #fff;
+        }
+
+        html, 
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            background: radial-gradient(circle at top left, rgba(79, 138, 255, 0.174), transparent 24%),
+                        radial-gradient(circle at bottom right, rgba(45, 211, 136, 0.211), transparent 20%),
+                        var(--bg);
+            color: var(--text);
+            line-height: 1.68;
+            letter-spacing: 0.01em;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        button, 
+        input, 
+        textarea, 
+        select {
+            font: inherit;
+        }
+
+        .page-shell {
+            width: min(1200px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 2rem 0 4rem;
+        }
+
+        .brand,
+        .site-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+        }
+
+        .brand::before {
+            content: "";
+            width: 0.8rem;
+            height: 0.8rem;
+            border-radius: 0.65rem;
+            background: linear-gradient(135deg, #4f8bff, #2bd387);
+            box-shadow: 0 0 20px rgba(79, 139, 255, 0.3);
+        }
+
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.5rem 0 1rem;
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.25s ease, transform 0.25s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible {
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            position: relative;
+            padding: 3.5rem 0 2.5rem;
+            min-height: 76vh;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(79, 139, 255, 0.18), transparent 20%),
+                        radial-gradient(circle at 80% 20%, rgba(45, 211, 135, 0.14), transparent 16%);
+            pointer-events: none;
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-copy h1 {
+            font-size: clamp(3rem, 5vw, 4.8rem);
+            margin: 0;
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            max-width: 12ch;
+        }
+
+        .hero-copy p {
+            margin: 1.75rem 0 2.2rem;
+            max-width: 42rem;
+            color: var(--muted);
+            font-size: 1.08rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .button-primary,
+        .button-secondary,
+        .button-ghost {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.75rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .button-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #4f8bff, #2bd387);
+            box-shadow: 0 18px 42px rgba(79, 139, 255, 0.24);
+        }
+
+        .button-primary:hover,
+        .button-primary:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 50px rgba(79, 139, 255, 0.28);
+        }
+
+        .button-secondary {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .button-secondary:hover,
+        .button-secondary:focus-visible {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            position: relative;
+            min-height: 440px;
+            display: grid;
+            place-items: center;
+            padding: 1.5rem;
+        }
+
+        .hero-panel {
+            width: 100%;
+            max-width: 520px;
+            background: rgba(255, 255, 255, 0.04);
+            border: var(--border);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-panel header {
+            padding: 1.5rem 1.75rem;
+            border-bottom: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .hero-panel header div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .hero-panel header span {
+            font-size: 0.88rem;
+            color: var(--muted);
+        }
+
+        .hero-panel .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .hero-panel .stat-description {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+            max-width: 14rem;
+            line-height: 1.55;
+        }
+
+        .hero-panel .panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .hero-panel .panel-tile {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            border: var(--border);
+            padding: 1rem 1.1rem;
+            min-height: 128px;
+        }
+
+        .hero-panel .panel-tile h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .hero-panel .panel-tile p {
+            margin: 0.75rem 0 0;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .section-title h2 {
+            font-size: clamp(2rem, 2.5vw, 2.6rem);
+            margin: 0;
+        }
+
+        .section-title p {
+            margin: 0;
+            color: var(--muted);
+            max-width: 42rem;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.75rem;
+        }
+
+        .feature-grid,
+        .portfolio-grid,
+        .testimonials-grid,
+        .pricing-grid,
+        .blog-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .features-columns {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .services-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .portfolio-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .testimonials-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .pricing-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .blog-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            box-shadow: 0 24px 40px rgba(4, 12, 32, 0.18);
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+
+        .card:hover,
+        .card:focus-within {
+            transform: translateY(-3px);
+            border-color: rgba(79, 139, 255, 0.35);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .card-small {
+            padding: 1.25rem;
+        }
+
+        .service-card {
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card h3,
+        .feature-card h3,
+        .pricing-card h3,
+        .faq-card h3,
+        .blog-card h3,
+        .testimonial-card h3 {
+            margin: 0 0 0.75rem;
+            font-size: 1.2rem;
+            line-height: 1.3;
+        }
+
+        .service-card p,
+        .feature-card p,
+        .pricing-card p,
+        .faq-card p,
+        .blog-card p,
+        .testimonial-card p {
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .service-icon,
+        .feature-icon,
+        .testimonial-avatar,
+        .blog-meta,
+        .stat-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 1rem;
+            background: rgba(79, 139, 255, 0.13);
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-meta,
+        .pricing-meta,
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
+        .service-meta span,
+        .pricing-meta span,
+        .blog-meta span {
+            display: inline-flex;
+            gap: 0.35rem;
+            align-items: center;
+        }
+
+        .service-card strong,
+        .feature-card strong,
+        .pricing-card strong,
+        .blog-card strong {
+            color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border);
+            border-radius: 22px;
+            padding: 1.4rem 1.5rem;
+            transition: transform 0.22s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-card small {
+            display: block;
+            color: var(--muted);
+            margin-top: 0.25rem;
+        }
+
+        .section-split {
+            padding: 3rem 0;
+        }
+
+        .about-grid {
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .about-step {
+            padding: 1.2rem 1.25rem;
+            border-radius: var(--radius-sm);
+            border: var(--border);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1rem;
+            align-items: flex-start;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .about-step strong {
+            display: block;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .progress-indicator {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            margin-top: 0.95rem;
+        }
+
+        .progress-indicator span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #4f8bff, #2bd387);
+        }
+
+        .testimonial-card {
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-content {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .testimonial-content::before {
+            content: """;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 3rem;
+            color: rgba(79, 139, 255, 0.22);
+            line-height: 1;
+        }
+
+        .testimonial-avatar {
+            border-radius: 999px;
+            width: 3.5rem;
+            height: 3.5rem;
+            margin-right: 0.95rem;
+            background: linear-gradient(135deg, #4f8bff, #2bd387);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-top: 1.5rem;
+        }
+
+        .testimonial-author div {
+            display: grid;
+            gap: 0.15rem;
+        }
+
+        .testimonial-author strong {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .pricing-card {
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pricing-card h3 {
+            margin-bottom: 0.35rem;
+        }
+
+        .pricing-card .price {
+            font-size: 3rem;
+            line-height: 1;
+            margin: 0.5rem 0 1.25rem;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .pricing-card ul li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--muted);
+            font-size: 0.97rem;
+        }
+
+        .pricing-card ul li::before {
+            content: "✔";
+            color: #2bd387;
+            font-size: 0.85rem;
+        }
+
+        .pricing-card button {
+            margin-top: 1.7rem;
+        }
+
+        .faq-card {
+            cursor: default;
+            min-height: 180px;
+        }
+
+        .faq-card h3 {
+            margin-bottom: 0.8rem;
+        }
+
+        .faq-card p {
+            margin: 0;
+        }
+
+        .contact-grid {
+            grid-template-columns: 1fr 0.95fr;
+        }
+
+        .contact-card {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .contact-card input,
+        .contact-card textarea,
+        .contact-card button {
+            width: 100%;
+        }
+
+        .contact-card input,
+        .contact-card textarea {
+            border: var(--border);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            border-radius: 18px;
+            padding: 1rem 1.15rem;
+        }
+
+        .contact-card textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .contact-card button {
+            border: none;
+            background: linear-gradient(135deg, #4f8bff, #2bd387);
+            color: #fff;
+            padding: 1rem 1.25rem;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .contact-card button:hover,
+        .contact-card button:focus-visible {
+            transform: translateY(-1px);
+        }
+
+        .newsletter {
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .newsletter strong {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.85rem;
+            width: 100%;
+            max-width: 38rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            border-radius: 999px;
+            padding: 1rem 1.25rem;
+            border: var(--border);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+        }
+
+        .newsletter-form button {
+            padding: 1rem 1.4rem;
+            border-radius: 999px;
+            border: none;
+            background: #4f8bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.25s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: #3d6ee0;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem 0 0;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.5rem;
+            border-top: var(--border);
+        }
+
+        .footer-column {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .footer a:hover {
+            color: var(--text);
+        }
+
+        .footer small {
+            color: var(--muted);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.95rem;
+            border-radius: 999px;
+            background: rgba(79, 139, 255, 0.12);
+            color: #b8d2ff;
+            font-size: 0.88rem;
+            border: 1px solid rgba(79, 139, 255, 0.16);
+        }
+
+        .badge.success {
+            background: rgba(45, 211, 135, 0.12);
+            border-color: rgba(45, 211, 135, 0.16);
+            color: #a7f8d3;
+        }
+
+        .badge.warning {
+            background: rgba(255, 183, 3, 0.12);
+            border-color: rgba(255, 183, 3, 0.16);
+            color: #ffe19d;
+        }
+
+        .text-highlight {
+            color: #4f8bff;
+        }
+
+        .text-muted {
+            color: var(--muted);
+        }
+
+        .quote-box {
+            border-left: 4px solid #4f8bff;
+            padding-left: 1rem;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .hero-shell,
+        .feature-shell,
+        .portfolio-shell,
+        .testimonial-shell,
+        .pricing-shell,
+        .faq-shell,
+        .blog-shell,
+        .contact-shell,
+        .about-shell {
+            padding: 2.5rem 0;
+        }
+
+        .hero-shell:not(:first-child) {
+            border-top: var(--border);
+            padding-top: 3rem;
+        }
+
+        .hero-shell::before,
+        .feature-shell::before,
+        .portfolio-shell::before,
+        .testimonial-shell::before,
+        .pricing-shell::before,
+        .faq-shell::before,
+        .blog-shell::before,
+        .contact-shell::before,
+        .about-shell::before {
+            content: "";
+            display: block;
+            height: 0;
+        }
+
+        .portfolio-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 260px;
+        }
+
+        .portfolio-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 45%, rgba(12, 16, 32, 0.85));
+            opacity: 0.95;
+            transition: opacity 0.25s ease;
+        }
+
+        .portfolio-card:hover::before {
+            opacity: 0.72;
+        }
+
+        .portfolio-card-inner {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.4rem;
+            color: #fff;
+            min-height: 260px;
+        }
+
+        .portfolio-card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.15rem;
+        }
+
+        .portfolio-card p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 0.96rem;
+        }
+
+        .portfolio-card[data-theme="blue"] {
+            background: linear-gradient(180deg, #4f8bff 0%, #142955 100%);
+        }
+
+        .portfolio-card[data-theme="green"] {
+            background: linear-gradient(180deg, #2bd387 0%, #13382f 100%);
+        }
+
+        .portfolio-card[data-theme="violet"] {
+            background: linear-gradient(180deg, #8d6fff 0%, #201e4d 100%);
+        }
+
+        .portfolio-card[data-theme="orange"] {
+            background: linear-gradient(180deg, #ff9a56 0%, #5c2902 100%);
+        }
+
+        .portfolio-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.92rem;
+        }
+
+        .portfolio-meta span::before {
+            content: "•";
+            margin-right: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .team-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .team-card {
+            display: grid;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            text-align: center;
+            box-shadow: 0 18px 36px rgba(5, 11, 29, 0.16);
+        }
+
+        .team-card strong {
+            display: block;
+            margin-top: 0.7rem;
+            font-size: 1.05rem;
+        }
+
+        .team-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .team-avatar {
+            width: 4.5rem;
+            height: 4.5rem;
+            margin: 0 auto;
+            border-radius: 1.2rem;
+            background: linear-gradient(135deg, rgba(79, 139, 255, 0.4), rgba(45, 211, 135, 0.35));
+            display: grid;
+            place-items: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border);
+            border-radius: 22px;
+            padding: 1.6rem;
+        }
+
+        .feature-card strong {
+            display: block;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .feature-card .feature-description {
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .feature-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feature-row .feature-icon {
+            min-width: 3rem;
+            min-height: 3rem;
+            border-radius: 1rem;
+            background: rgba(79, 139, 255, 0.15);
+            color: #fff;
+        }
+
+        .feature-row strong {
+            font-size: 1rem;
+        }
+
+        .hero-notice {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--muted);
+            width: fit-content;
+        }
+
+        .hero-notice strong {
+            color: #fff;
+        }
+
+        .hero-notice::before {
+            content: "✓";
+            display: inline-flex;
+            width: 1.2rem;
+            height: 1.2rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.65rem;
+            background: rgba(79, 139, 255, 0.2);
+            color: #fff;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 3rem 0;
+        }
+
+        .feature-highlight {
+            display: inline-flex;
+            gap: 0.65rem;
+            align-items: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .feature-highlight::before {
+            content: "•";
+            color: #4f8bff;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(79, 139, 255, 0.12);
+            border: 1px solid rgba(79, 139, 255, 0.16);
+            color: var(--text);
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .section-badge span {
+            color: #a9b1d4;
+        }
+
+        .testimonial-grid {
+            gap: 1.5rem;
+        }
+
+        .testimonial-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.85;
+        }
+
+        .faq-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .faq-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border);
+            border-radius: 22px;
+            padding: 1.5rem;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border);
+            border-radius: 22px;
+            padding: 1.5rem;
+            min-height: 300px;
+        }
+
+        .blog-card time {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .contact-details {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .contact-details strong {
+            display: block;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .contact-details a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--text);
+        }
+
+        .contact-highlight {
+            background: rgba(79, 139, 255, 0.08);
+            border: 1px solid rgba(79, 139, 255, 0.14);
+            border-radius: 24px;
+            padding: 1.4rem;
+        }
+
+        .contact-highlight p {
+            margin: 0.8rem 0 0;
+            color: var(--muted);
+        }
+
+        /* Bundle Special Styling */
+        .bundle-special {
+            border: 2px solid #ff9800 !important;
+            background: linear-gradient(180deg, #ffffff0d, #fffdf91a) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bundle-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: #ff9800;
+            color: white;
+            padding: 4px 30px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid,
+            .services-grid,
+            .features-columns,
+            .portfolio-grid,
+            .team-grid,
+            .testimonials-grid,
+            .pricing-grid,
+            .blog-grid,
+            .faq-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-shell {
+                width: min(100%, calc(100% - 1.5rem));
+                padding: 1.5rem 0 2.5rem;
+            }
+
+            .site-header,
+            .nav-list,
+            .button-group,
+            .newsletter,
+            .newsletter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-list {
+                gap: 0.9rem;
+            }
+
+            .features-columns,
+            .services-grid,
+            .portfolio-grid,
+            .team-grid,
+            .testimonials-grid,
+            .pricing-grid,
+            .blog-grid,
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-copy h1 {
+                font-size: clamp(2.7rem, 8vw, 3.75rem);
+            }
+
+            .hero-panel .panel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-panel header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-visual {
+                min-height: auto;
+            }
+
+            .footer {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-columns,
+            .services-grid,
+            .portfolio-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .page-shell {
+            width: min(1200px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 2rem 0 4rem;
+        }
+
+        .brand,
+        .site-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+        }
+
+        .brand::before {
+            content: "";
+            width: 0.8rem;
+            height: 0.8rem;
+            border-radius: 0.65rem;
+            background: linear-gradient(135deg, #4f8bff, #2bd387);
+            box-shadow: 0 0 20px rgba(79, 139, 255, 0.3);
+        }
+
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.5rem 0 1rem;
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.25s ease, transform 0.25s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible {
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            position: relative;
+            padding: 3.5rem 0 2.5rem;
+            min-height: 76vh;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(79, 139, 255, 0.18), transparent 20%),
+                        radial-gradient(circle at 80% 20%, rgba(45, 211, 135, 0.14), transparent 16%);
+            pointer-events: none;
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-copy h1 {
+            font-size: clamp(3rem, 5vw, 4.8rem);
+            margin: 0;
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            max-width: 12ch;
+        }
+
+        .hero-copy p {
+            margin: 1.75rem 0 2.2rem;
+            max-width: 42rem;
+            color: var(--muted);
+            font-size: 1.08rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .button-primary,
+        .button-secondary,
+        .button-ghost {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.75rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .button-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #4f8bff, #2bd387);
+            box-shadow: 0 18px 42px rgba(79, 139, 255, 0.24);
+        }
+
+        .button-primary:hover,
+        .button-primary:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 50px rgba(79, 139, 255, 0.28);
+        }
+
+        .button-secondary {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255,255,255,0.12);
+        }
+
+        .button-secondary:hover,
+        .button-secondary:focus-visible {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            position: relative;
+            min-height: 440px;
+            display: grid;
+            place-items: center;
+            padding: 1.5rem;
+        }
+
+        .hero-panel {
+            width: 100%;
+            max-width: 520px;
+            background: rgba(255,255,255,0.04);
+            border: var(--border);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-panel header {
+            padding: 1.5rem 1.75rem;
+            border-bottom: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .hero-panel header div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .hero-panel header span {
+            font-size: 0.88rem;
+            color: var(--muted);
+        }
+
+        .hero-panel .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .hero-panel .stat-description {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+            max-width: 14rem;
+            line-height: 1.55;
+        }
+
+        .hero-panel .panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .hero-panel .panel-tile {
+            background: rgba(255,255,255,0.04);
+            border-radius: 20px;
+            border: var(--border);
+            padding: 1rem 1.1rem;
+            min-height: 128px;
+        }
+
+        .hero-panel .panel-tile h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .hero-panel .panel-tile p {
+            margin: 0.75rem 0 0;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .section-title h2 {
+            font-size: clamp(2rem, 2.5vw, 2.6rem);
+            margin: 0;
+        }
+
+        .section-title p {
+            margin: 0;
+            color: var(--muted);
+            max-width: 42rem;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.75rem;
+        }
+
+        .feature-grid,
+        .portfolio-grid,
+        .testimonials-grid,
+        .pricing-grid,
+        .blog-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .features-columns {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .services-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .portfolio-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .testimonials-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .pricing-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .blog-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .card {
+            background: rgba(255,255,255,0.04);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            box-shadow: 0 24px 40px rgba(4, 12, 32, 0.18);
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+
+        .card:hover,
+        .card:focus-within {
+            transform: translateY(-3px);
+            border-color: rgba(79,139,255,0.35);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .card-small {
+            padding: 1.25rem;
+        }
+
+        .service-card {
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card h3,
+        .feature-card h3,
+        .pricing-card h3,
+        .faq-card h3,
+        .blog-card h3,
+        .testimonial-card h3 {
+            margin: 0 0 0.75rem;
+            font-size: 1.2rem;
+            line-height: 1.3;
+        }
+
+        .service-card p,
+        .feature-card p,
+        .pricing-card p,
+        .faq-card p,
+        .blog-card p,
+        .testimonial-card p {
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .service-icon,
+        .feature-icon,
+        .testimonial-avatar,
+        .blog-meta,
+        .stat-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 1rem;
+            background: rgba(79, 139, 255, 0.13);
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-meta,
+        .pricing-meta,
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
+        .service-meta span,
+        .pricing-meta span,
+        .blog-meta span {
+            display: inline-flex;
+            gap: 0.35rem;
+            align-items: center;
+        }
+
+        .service-card strong,
+        .feature-card strong,
+        .pricing-card strong,
+        .blog-card strong {
+            color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            border: var(--border);
+            border-radius: 22px;
+            padding: 1.4rem 1.5rem;
+            transition: transform 0.22s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-card small {
+            display: block;
+            color: var(--muted);
+            margin-top: 0.25rem;
+        }
+
+        .section-split {
+            padding: 3rem 0;
+        }
+
+        .about-grid {
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .about-step {
+            padding: 1.2rem 1.25rem;
+            border-radius: var(--radius-sm);
+            border: var(--border);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1rem;
+            align-items: flex-start;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .about-step strong {
+            display: block;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .progress-indicator {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+            margin-top: 0.95rem;
+        }
+
+        .progress-indicator span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #4f8bff, #2bd387);
+        }
+
+        .testimonial-card {
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-content {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .testimonial-content::before {
+            content: "“";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 3rem;
+            color: rgba(79, 139, 255, 0.22);
+            line-height: 1;
+        }
+
+        .testimonial-avatar {
+            border-radius: 999px;
+            width: 3.5rem;
+            height: 3.5rem;
+            margin-right: 0.95rem;
+            background: linear-gradient(135deg, #4f8bff, #2bd387);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-top: 1.5rem;
+        }
+
+        .testimonial-author div {
+            display: grid;
+            gap: 0.15rem;
+        }
+
+        .testimonial-author strong {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .pricing-card {
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pricing-card h3 {
+            margin-bottom: 0.35rem;
+        }
+
+        .pricing-card .price {
+            font-size: 3rem;
+            line-height: 1;
+            margin: 0.5rem 0 1.25rem;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .pricing-card ul li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--muted);
+            font-size: 0.97rem;
+        }
+
+        .pricing-card ul li::before {
+            content: "✔";
+            color: #2bd387;
+            font-size: 0.85rem;
+        }
+
+        .pricing-card button {
+            margin-top: 1.7rem;
+        }
+
+        .faq-card {
+            cursor: default;
+            min-height: 180px;
+        }
+
+        .faq-card h3 {
+            margin-bottom: 0.8rem;
+        }
+
+        .faq-card p {
+            margin: 0;
+        }
+
+        .contact-grid {
+            grid-template-columns: 1fr 0.95fr;
+        }
+
+        .contact-card {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .contact-card input,
+        .contact-card textarea,
+        .contact-card button {
+            width: 100%;
+        }
+
+        .contact-card input,
+        .contact-card textarea {
+            border: var(--border);
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
+            border-radius: 18px;
+            padding: 1rem 1.15rem;
+        }
+
+        .contact-card textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .contact-card button {
+            border: none;
+            background: linear-gradient(135deg, #4f8bff, #2bd387);
+            color: #fff;
+            padding: 1rem 1.25rem;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .contact-card button:hover,
+        .contact-card button:focus-visible {
+            transform: translateY(-1px);
+        }
+
+        .newsletter {
+            background: rgba(255,255,255,0.03);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .newsletter strong {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.85rem;
+            width: 100%;
+            max-width: 38rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            border-radius: 999px;
+            padding: 1rem 1.25rem;
+            border: var(--border);
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
+        }
+
+        .newsletter-form button {
+            padding: 1rem 1.4rem;
+            border-radius: 999px;
+            border: none;
+            background: #4f8bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem 0 0;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.5rem;
+            border-top: var(--border);
+        }
+
+        .footer-column {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .footer small {
+            color: var(--muted);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.95rem;
+            border-radius: 999px;
+            background: rgba(79,139,255,0.12);
+            color: #b8d2ff;
+            font-size: 0.88rem;
+            border: 1px solid rgba(79,139,255,0.16);
+        }
+
+        .text-highlight {
+            color: #4f8bff;
+        }
+
+        .quote-box {
+            border-left: 4px solid #4f8bff;
+            padding-left: 1rem;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .badge.success {
+            background: rgba(45,211,135,0.12);
+            border-color: rgba(45,211,135,0.16);
+            color: #a7f8d3;
+        }
+
+        .badge.warning {
+            background: rgba(255,183,3,0.12);
+            border-color: rgba(255,183,3,0.16);
+            color: #ffe19d;
+        }
+
+        .text-muted {
+            color: var(--muted);
+        }
+
+        .hero-shell,
+        .feature-shell,
+        .portfolio-shell,
+        .testimonial-shell,
+        .pricing-shell,
+        .faq-shell,
+        .blog-shell,
+        .contact-shell,
+        .about-shell {
+            padding: 2.5rem 0;
+        }
+
+        .hero-shell:not(:first-child) {
+            border-top: var(--border);
+            padding-top: 3rem;
+        }
+
+        .hero-shell::before,
+        .feature-shell::before,
+        .portfolio-shell::before,
+        .testimonial-shell::before,
+        .pricing-shell::before,
+        .faq-shell::before,
+        .blog-shell::before,
+        .contact-shell::before,
+        .about-shell::before {
+            content: "";
+            display: block;
+            height: 0;
+        }
+
+        .portfolio-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 260px;
+        }
+
+        .portfolio-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 45%, rgba(12, 16, 32, 0.85));
+            opacity: 0.95;
+            transition: opacity 0.25s ease;
+        }
+
+        .portfolio-card:hover::before {
+            opacity: 0.72;
+        }
+
+        .portfolio-card-inner {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            padding: 1.4rem;
+            color: #fff;
+            min-height: 260px;
+        }
+
+        .portfolio-card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.15rem;
+        }
+
+        .portfolio-card p {
+            margin: 0;
+            color: rgba(255,255,255,0.82);
+            font-size: 0.96rem;
+        }
+
+        .portfolio-card[data-theme="blue"] {
+            background: linear-gradient(180deg, #4f8bff 0%, #142955 100%);
+        }
+
+        .portfolio-card[data-theme="green"] {
+            background: linear-gradient(180deg, #2bd387 0%, #13382f 100%);
+        }
+
+        .portfolio-card[data-theme="violet"] {
+            background: linear-gradient(180deg, #8d6fff 0%, #201e4d 100%);
+        }
+
+        .portfolio-card[data-theme="orange"] {
+            background: linear-gradient(180deg, #ff9a56 0%, #5c2902 100%);
+        }
+
+        .team-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .team-card {
+            display: grid;
+            gap: 1rem;
+            background: rgba(255,255,255,0.03);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            text-align: center;
+            box-shadow: 0 18px 36px rgba(5, 11, 29, 0.16);
+        }
+
+        .team-card strong {
+            display: block;
+            margin-top: 0.7rem;
+            font-size: 1.05rem;
+        }
+
+        .team-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .team-avatar {
+            width: 4.5rem;
+            height: 4.5rem;
+            margin: 0 auto;
+            border-radius: 1.2rem;
+            background: linear-gradient(135deg, rgba(79, 139, 255, 0.4), rgba(45, 211, 135, 0.35));
+            display: grid;
+            place-items: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.03);
+            border: var(--border);
+            border-radius: 22px;
+            padding: 1.6rem;
+        }
+
+        .feature-card strong {
+            display: block;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .feature-card .feature-description {
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .feature-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feature-row .feature-icon {
+            min-width: 3rem;
+            min-height: 3rem;
+            border-radius: 1rem;
+            background: rgba(79, 139, 255, 0.15);
+            color: #fff;
+        }
+
+        .feature-row strong {
+            font-size: 1rem;
+        }
+
+        .hero-notice {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 999px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--muted);
+            width: fit-content;
+        }
+
+        .hero-notice strong {
+            color: #fff;
+        }
+
+        .hero-notice::before {
+            content: "✓";
+            display: inline-flex;
+            width: 1.2rem;
+            height: 1.2rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.65rem;
+            background: rgba(79, 139, 255, 0.2);
+            color: #fff;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.05);
+            margin: 3rem 0;
+        }
+
+        .feature-highlight {
+            display: inline-flex;
+            gap: 0.65rem;
+            align-items: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .feature-highlight::before {
+            content: "•";
+            color: #4f8bff;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(79, 139, 255, 0.12);
+            border: 1px solid rgba(79,139,255,0.16);
+            color: var(--text);
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .section-badge span {
+            color: #a9b1d4;
+        }
+
+        .portfolio-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.92rem;
+        }
+
+        .portfolio-meta span::before {
+            content: "•";
+            margin-right: 0.5rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .testimonial-grid {
+            gap: 1.5rem;
+        }
+
+        .testimonial-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.85;
+        }
+
+        .faq-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .faq-card {
+            background: rgba(255,255,255,0.03);
+            border: var(--border);
+            border-radius: 22px;
+            padding: 1.5rem;
+        }
+
+        .blog-card {
+            background: rgba(255,255,255,0.03);
+            border: var(--border);
+            border-radius: 22px;
+            padding: 1.5rem;
+            min-height: 300px;
+        }
+
+        .blog-card time {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .contact-details {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .contact-details strong {
+            display: block;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .contact-details a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .contact-highlight {
+            background: rgba(79, 139, 255, 0.08);
+            border: 1px solid rgba(79,139,255,0.14);
+            border-radius: 24px;
+            padding: 1.4rem;
+        }
+
+        .contact-highlight p {
+            margin: 0.8rem 0 0;
+            color: var(--muted);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <!-- Header Navigation -->
+        <header class="site-header">
+            <a href="#top" class="brand">Nexora</a>
+            <nav aria-label="Primary navigation">
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="#services">Services</a></li>
+                    <li><a class="nav-link" href="#portfolio">Portfolio</a></li>
+                    <li><a class="nav-link" href="#pricing">Pricing</a></li>
+                    <li><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero hero-shell" id="top">
+            <div class="hero-copy">
+                <span class="hero-notice">Trusted by fast-growing Students</span>
+                <h1>Learn, build, and Evolve</h1>
+                <p>This is the place where students can learn their skills and grow their careers.</p>
+                <div class="button-group">
+                    <a href="#contact" class="button-primary">Start your project</a>
+                    <a href="#portfolio" class="button-secondary">View portfolio</a>
+                </div>
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-value">27+</div>
+                        <small>Our cumulative team experience</small>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-value">120+</div>
+                        <small>Knowledge articles delivered</small>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-value">98%</div>
+                        <small>Client retention rate</small>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-value">7x</div>
+                        <small>Average return on campaign investment</small>
+                    </article>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-panel">
+                    <header>
+                        <div>
+                            <span>Live analytics</span>
+                            <div class="stat-value">10.8k</div>
+                        </div>
+                        <span>Updated recently</span>
+                    </header>
+                    <div class="panel-grid">
+                        <div class="panel-tile">
+                            <h3>Visitors</h3>
+                            <p>Mostly students from the same region or colleges.</p>
+                        </div>
+                        <div class="panel-tile">
+                            <h3>Conversion score</h3>
+                            <p>Smart scoring for hyper-growth.</p>
+                        </div>
+                        <div class="panel-tile">
+                            <h3>Client feedback</h3>
+                            <p>Very happy with this practical oriented approach for students.</p>
+                        </div>
+                        <div class="panel-tile">
+                            <h3>Retention rate</h3>
+                            <p>Designed with loyalty in mind for consistent brand experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-shell" id="about">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>About</span> Future Launchpad</p>
+                    <h2>Launch your future. Lead the world.</h2>
+                </div>
+                <p>From skills to opportunities – get everything you need to shape a successful career, build future-ready skills, and launch a better tomorrow.</p>
+            </div>
+            <div class="about-grid">
+                <div>
+                    <div class="card about-card">
+                        <p class="text-highlight">We provide career and growth essentials for every aspiring achiever to learn, grow, and succeed.</p>
+                        <div class="about-list">
+                            <div class="about-step">
+                                <div class="feature-icon">01</div>
+                                <div>
+                                    <strong>Skill Enhancement & Tech (AI)</strong>
+                                    <p>Explore Artificial Intelligence, master modern marketing strategies, build communication skills, and develop problem-solving attitude.</p>
+                                </div>
+                            </div>
+                            <div class="about-step">
+                                <div class="feature-icon">02</div>
+                                <div>
+                                    <strong>Practical Exposure & Hackathons</strong>
+                                    <p>Apply your learning in real-world hackathons, ideathons, and workshops to solve complex problems and turn ideas into impact.</p>
+                                </div>
+                            </div>
+                            <div class="about-step">
+                                <div class="feature-icon">03</div>
+                                <div>
+                                    <strong>Placements & Startup Support</strong>
+                                    <p>Get professional mentorship, tools, and expert guidance to launch startups or connect with top companies.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-grid">
+                    <article class="team-card">
+                        <div class="team-avatar">PD</div>
+                        <strong>Placements Drive</strong>
+                        <span>Connect & Get Hired</span>
+                    </article>
+                    <article class="team-card">
+                        <div class="team-avatar">SU</div>
+                        <strong>Startup Launch</strong>
+                        <span>Expert Support & Tools</span>
+                    </article>
+                    <article class="team-card">
+                        <div class="team-avatar">CG</div>
+                        <strong>Career Guidance</strong>
+                        <span>Expert Path Advice</span>
+                    </article>
+                    <article class="team-card">
+                        <div class="team-avatar">IS</div>
+                        <strong>Internships</strong>
+                        <span>Practical Experience</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="hero-shell" id="services">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>Our Programs</span> Course Pricing & Plans</p>
+                    <h2>Your Skills. Your Future. Our Mission.</h2>
+                </div>
+                <p>Complete Learning. Real Growth. Bright Future. Affordable and life-changing learning paths built to help you learn today and lead tomorrow.</p>
+            </div>
+            <div class="services-grid">
+                <article class="card service-card">
+                    <span class="service-icon">🗣️</span>
+                    <h3>Career & Communication Mastery</h3>
+                    <p>Build confidence, communicate better, and get placed with vital interpersonal skills for modern hiring processes.</p>
+                    <div class="service-meta">
+                        <span>Placements</span>
+                        <span>Interviews</span>
+                        <span>Group Discussion</span>
+                    </div>
+                    <div style="margin-top: auto; padding-top: 15px; font-weight: bold; color: #4caf50;">
+                        Price: ₹999 <span style="font-size: 0.8rem; color: #777;">ONLY</span>
+                    </div>
+                </article>
+                <article class="card service-card">
+                    <span class="service-icon">🤖</span>
+                    <h3>Innovation & Future Skills</h3>
+                    <p>Innovate and build the future with new-age technology skills tailored for tech innovators and future leaders.</p>
+                    <div class="service-meta">
+                        <span>AI</span>
+                        <span>Startups</span>
+                        <span>Hackathons</span>
+                    </div>
+                    <div style="margin-top: auto; padding-top: 15px; font-weight: bold; color: #4caf50;">
+                        Price: ₹1,119 <span style="font-size: 0.8rem; color: #777;">ONLY</span>
+                    </div>
+                </article>
+                <article class="card service-card">
+                    <span class="service-icon">💼</span>
+                    <h3>Career Essentials</h3>
+                    <p>Learn what matters, prepare smarter, and get ahead with core building blocks for professional readiness.</p>
+                    <div class="service-meta">
+                        <span>Internships</span>
+                        <span>Career Guidance</span>
+                        <span>Marketing Fundamentals</span>
+                    </div>
+                    <div style="margin-top: auto; padding-top: 15px; font-weight: bold; color: #4caf50;">
+                        Price: ₹1,399 <span style="font-size: 0.8rem; color: #777;">ONLY</span>
+                    </div>
+                </article>
+                <article class="card service-card">
+                    <span class="service-icon">💻</span>
+                    <h3>Core Computer Foundations</h3>
+                    <p>Build strong tech foundation with deep technical competencies needed to launch successful tech careers.</p>
+                    <div class="service-meta">
+                        <span>Prompt Eng.</span>
+                        <span>OS & DBMS</span>
+                        <span>Networking</span>
+                    </div>
+                    <div style="margin-top: auto; padding-top: 15px; font-weight: bold; color: #4caf50;">
+                        Price: ₹1,449 <span style="font-size: 0.8rem; color: #777;">ONLY</span>
+                    </div>
+                </article>
+            </div>
+            <div class="card bundle-special" style="margin-top: 30px; text-align: center; padding: 20px;">
+                <span class="bundle-badge">BEST VALUE</span>
+                <h3 style="margin: 10px 0 5px 0;">All 4 Courses Bundle</h3>
+                <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: var(--text);">Unlock everything. Pay less. Achieve more!</p>
+                <div style="font-size: 1.3rem; font-weight: bold;">
+                    Price: <span style="color: #e53935;">₹4,499</span>
+                    <span style="text-decoration: line-through; color: #999; font-size: 1rem;">₹4,966</span>
+                    <span style="color: #4caf50; font-size: 0.9rem; margin-left: 10px;">SAVE ₹467</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="hero-shell" id="features">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>Why Nexora</span> Built for Student Success</p>
+                    <h2>Empowering Dreams. Building Tomorrow.</h2>
+                </div>
+                <p>Learn today. Lead tomorrow. Your journey to success starts here with specialized features designed to help you plan, prepare, and propel your career.</p>
+            </div>
+            <div class="feature-grid features-columns">
+                <article class="feature-card">
+                    <div class="feature-row">
+                        <span class="feature-icon">👨‍🏫</span>
+                        <strong>Expert Mentors</strong>
+                    </div>
+                    <p class="feature-description">Learn directly from industry professionals who bring real-world corporate experience and insights to your education.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-row">
+                        <span class="feature-icon">🛠️</span>
+                        <strong>Practical Learning</strong>
+                    </div>
+                    <p class="feature-description">Gain hands-on training through live, real-world projects, immersive workshops, hackathons, and dynamic ideathons.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-row">
+                        <span class="feature-icon">🤝</span>
+                        <strong>Career Support</strong>
+                    </div>
+                    <p class="feature-description">Receive dedicated expert guidance, placement drive preparation, and essential tools at every step of your professional journey.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-row">
+                        <span class="feature-icon">🎯</span>
+                        <strong>Future Focused</strong>
+                    </div>
+                    <p class="feature-description">Master modern, high-demand skillsets like Artificial Intelligence and Prompt Engineering for a stronger career base.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section class="hero-shell" id="portfolio">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>Highlights</span> Events & Achievements</p>
+                    <h2>Immersive experiences, workshops, and real-world results.</h2>
+                </div>
+                <p>Take a look at how our students learn, build, and succeed through hands-on practical exposure and direct industry interaction.</p>
+            </div>
+            <div class="portfolio-grid">
+                <article class="portfolio-card" data-theme="blue">
+                    <div class="portfolio-card-inner">
+                        <h3>Nexora Hackathons</h3>
+                        <p>Intense collaborative code and design challenges where students tackle complex engineering problems overnight.</p>
+                        <div class="portfolio-meta">
+                            <span>Practical Exposure</span>
+                            <span>Problem Solving</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card" data-theme="green">
+                    <div class="portfolio-card-inner">
+                        <h3>National Ideathons</h3>
+                        <p>Pitching platforms for aspiring startup founders to turn creative concepts into structured business tools.</p>
+                        <div class="portfolio-meta">
+                            <span>Startup Launch</span>
+                            <span>Innovation</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card" data-theme="violet">
+                    <div class="portfolio-card-inner">
+                        <h3>AI & Prompt Eng. Workshops</h3>
+                        <p>Immersive learning labs mastering Artificial Intelligence tools and specialized technical foundations.</p>
+                        <div class="portfolio-meta">
+                            <span>Future Skills</span>
+                            <span>Hands-on Tech</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card" data-theme="orange">
+                    <div class="portfolio-card-inner">
+                        <h3>Campus Placements Drive</h3>
+                        <p>Dedicated recruitment events connecting prepared, career-ready students directly with leading companies.</p>
+                        <div class="portfolio-meta">
+                            <span>Get Hired</span>
+                            <span>Interviews</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card" data-theme="blue">
+                    <div class="portfolio-card-inner">
+                        <h3>Communication Mastery Labs</h3>
+                        <p>Interactive group discussions, mock interviews, and public speaking sessions to build confidence.</p>
+                        <div class="portfolio-meta">
+                            <span>Soft Skills</span>
+                            <span>Group Discussion</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card" data-theme="green">
+                    <div class="portfolio-card-inner">
+                        <h3>Industry Internship Programs</h3>
+                        <p>Real-world work assignments pairing students with corporate teams for practical experience.</p>
+                        <div class="portfolio-meta">
+                            <span>Career Essentials</span>
+                            <span>Job Readiness</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card" data-theme="violet">
+                    <div class="portfolio-card-inner">
+                        <h3>Expert Mentor Networking</h3>
+                        <p>Connect with industry leaders, executives, and innovators building pathways for your career growth.</p>
+                        <div class="portfolio-meta">
+                            <span>Networking</span>
+                            <span>Mentorship</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card" data-theme="orange">
+                    <div class="portfolio-card-inner">
+                        <h3>Portfolio Building Sessions</h3>
+                        <p>Learn to showcase your best work and create an impressive professional portfolio that stands out.</p>
+                        <div class="portfolio-meta">
+                            <span>Personal Brand</span>
+                            <span>Career Prep</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="hero-shell" id="testimonials">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>Success Stories</span> Student & Learner Feedback</p>
+                    <h2>Real reviews from ambitious minds who launched with us.</h2>
+                </div>
+                <p>From mastering advanced tech to cracking placement rounds, hear how our practical learning paths helped students accelerate their careers.</p>
+            </div>
+            <div class="testimonials-grid testimonial-grid">
+                <article class="testimonial-card card">
+                    <div class="testimonial-content">
+                        <p>The AI and Prompt Engineering workshops completely shifted how I approach software. Building live hackathon projects gave me the technical confidence I needed to stand out.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <span class="testimonial-avatar">AK</span>
+                        <div>
+                            <strong>Arjun Kumar</strong>
+                            <span>Tech Associate, Tech Mahindra</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="testimonial-card card">
+                    <div class="testimonial-content">
+                        <p>I joined for communication and interview preparation. The mock group discussions and public speaking labs completely cured my stage fright before campus placements.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <span class="testimonial-avatar">SR</span>
+                        <div>
+                            <strong>Sana Reddy</strong>
+                            <span>Systems Engineer, Infosys</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="testimonial-card card">
+                    <div class="testimonial-content">
+                        <p>The startup support program is top-tier. They reviewed my pitch deck during the National Ideathon and provided real tools and expert guidance to launch my business.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <span class="testimonial-avatar">NP</span>
+                        <div>
+                            <strong>Nikhil Patel</strong>
+                            <span>Founder, AgriTech Startup</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="testimonial-card card">
+                    <div class="testimonial-content">
+                        <p>The Computer Foundations course covered OS, DBMS, and Networking concepts so clearly that my technical screening rounds felt easy. Highly recommend their learning paths.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <span class="testimonial-avatar">MS</span>
+                        <div>
+                            <strong>Meera Sharma</strong>
+                            <span>Full-Stack Intern, Wipro</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="testimonial-card card">
+                    <div class="testimonial-content">
+                        <p>Getting a structured learning plan with expert mentors saved me months of aimless searching. The career guidance sessions showed me exactly what modern companies need.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <span class="testimonial-avatar">VJ</span>
+                        <div>
+                            <strong>Vikram Joshi</strong>
+                            <span>Graduate Trainee, TCS</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="testimonial-card card">
+                    <div class="testimonial-content">
+                        <p>Finding a verified internship program through Nexora gave me genuine workplace experience for my resume. The marketing modules are directly applicable to real roles.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <span class="testimonial-avatar">AL</span>
+                        <div>
+                            <strong>Ananya Loyal</strong>
+                            <span>Digital Marketer, Cognizant</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="hero-shell" id="pricing">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>Pricing</span> Affordable & Transparent Plans</p>
+                    <h2>Invest in your future. Choose your ideal growth path.</h2>
+                </div>
+                <p>Complete learning, real growth, and bright future goals. Select an individual path or unlock maximum value with our bundled framework.</p>
+            </div>
+            <div class="pricing-grid">
+                <article class="card pricing-card">
+                    <div>
+                        <h3>Path 1: Career Mastery</h3>
+                        <p class="price">₹999</p>
+                        <p>Best for mastering interpersonal communication and clearing campus placement drives.</p>
+                        <ul>
+                            <li>Placements Drive Prep</li>
+                            <li>Interview Readiness</li>
+                            <li>Group Discussion Labs</li>
+                            <li>Public Speaking Confidence</li>
+                        </ul>
+                    </div>
+                    <button class="button-primary">Enroll Now</button>
+                </article>
+
+                <article class="card pricing-card">
+                    <div>
+                        <h3>Path 2: Future Skills</h3>
+                        <p class="price">₹1,119</p>
+                        <p>Perfect for tech innovators who want to leverage modern intelligence and building frameworks.</p>
+                        <ul>
+                            <li>Artificial Intelligence (AI)</li>
+                            <li>Startup Tools & Support</li>
+                            <li>Hackathons & Ideathons</li>
+                            <li>Interactive Labs & Workshops</li>
+                        </ul>
+                    </div>
+                    <button class="button-primary">Enroll Now</button>
+                </article>
+
+                <article class="card pricing-card">
+                    <div>
+                        <h3>Path 3: Career Essentials</h3>
+                        <p class="price">₹1,399</p>
+                        <p>Designed to help you navigate modern industrial standards and secure competitive internships.</p>
+                        <ul>
+                            <li>Verified Internships</li>
+                            <li>Expert Career Guidance</li>
+                            <li>Marketing Fundamentals</li>
+                            <li>Job Requirement Mapping</li>
+                        </ul>
+                    </div>
+                    <button class="button-primary">Enroll Now</button>
+                </article>
+
+                <article class="card bundle-special">
+                    <div>
+                        <h3 style="color: #ff9800;">All-in-One Complete Bundle</h3>
+                        <p class="price" style="color: #e53935;">₹4,499 <span style="text-decoration: line-through; color: #999; font-size: 1rem;">₹4,966</span></p>
+                        <p>Unlock everything across all packages. Maximize your career potential and save ₹467 instantly!</p>
+                        <ul>
+                            <li><strong>ALL 4 Specialized Paths Included</strong></li>
+                            <li>Advanced Prompt Engineering</li>
+                            <li>Core OS, DBMS, & CN Foundations</li>
+                            <li>Priority Industry Mentor Access</li>
+                        </ul>
+                    </div>
+                    <button class="button-primary" style="background: #ff9800; border-color: #ff9800;">Get All Courses</button>
+                </article>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="hero-shell" id="faq">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>FAQ</span> Common questions</p>
+                    <h2>Answers to the questions we receive most often.</h2>
+                </div>
+                <p>We believe in clear communication. Here are the details on our learning paths, schedules, and career support systems.</p>
+            </div>
+            <div class="faq-grid">
+                <article class="card faq-card">
+                    <h3>Are these courses suitable for absolute beginners?</h3>
+                    <p>Yes. All learning paths are structured to take you from foundational basics to advanced corporate readiness, regardless of your current skill level.</p>
+                </article>
+
+                <article class="card faq-card">
+                    <h3>How do the placement drives and startup support work?</h3>
+                    <p>Nexora offers dedicated tools, expert guidance, and mentorship to help you clear interview rounds or build pitch decks for national ideathons.</p>
+                </article>
+
+                <article class="card faq-card">
+                    <h3>Is there a discount if I want to enroll in all 4 paths?</h3>
+                    <p>Absolutely. You can unlock all 4 specialized learning paths via our All-in-One Complete Bundle for just ₹4,499, saving you ₹467 instantly.</p>
+                </article>
+
+                <article class="card faq-card">
+                    <h3>Will I get hands-on practical training?</h3>
+                    <p>Yes. Education at Nexora is highly practical. You will actively participate in live workshops, national hackathons, and real-world projects.</p>
+                </article>
+
+                <article class="card faq-card">
+                    <h3>Do I need a high-end computer to study AI and programming?</h3>
+                    <p>No. Standard modern laptops are perfectly fine. We teach you how to use cloud-based AI tools and accessible frameworks.</p>
+                </article>
+
+                <article class="card faq-card">
+                    <h3>How can I contact support if I have trouble registering?</h3>
+                    <p>You can connect directly with our admissions and student support teams via the contact details provided in our official website footer.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Blog/Resources Section -->
+        <section class="hero-shell" id="blog">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>Resources</span> Insights & Career Guides</p>
+                    <h2>Practical guidance to help you learn today and lead tomorrow.</h2>
+                </div>
+                <p>Explore expert-backed strategies, interview blueprints, and future tech trends curated by our industry mentors to accelerate your growth.</p>
+            </div>
+            <div class="blog-grid">
+                <article class="card blog-card">
+                    <time datetime="2026-06-20">June 20, 2026</time>
+                    <h3>Mastering the Campus Placement Drive: A Step-by-Step Blueprint</h3>
+                    <p>Learn how to structure your profile, navigate technical evaluations, and confidently clear competitive corporate hiring tracks.</p>
+                </article>
+
+                <article class="card blog-card">
+                    <time datetime="2026-06-12">June 12, 2026</time>
+                    <h3>How to Use AI & Prompt Engineering for Academic Excellence</h3>
+                    <p>Discover how modern artificial intelligence frameworks can enhance your technical problem-solving and optimize engineering workflows.</p>
+                </article>
+
+                <article class="card blog-card">
+                    <time datetime="2026-05-28">May 28, 2026</time>
+                    <h3>Cracking Group Discussions: 5 Soft Skill Rules to Stand Out</h3>
+                    <p>Communication is vital. Master the art of articulating complex arguments clearly and leading team interactive rounds.</p>
+                </article>
+
+                <article class="card blog-card">
+                    <time datetime="2026-05-15">May 15, 2026</time>
+                    <h3>The Hackathon Survival Guide: Turning Raw Ideas into Code</h3>
+                    <p>Everything you need for competitive 24-hour ideathons, building functional prototypes, and pitching solutions to industry judges.</p>
+                </article>
+
+                <article class="card blog-card">
+                    <time datetime="2026-04-30">April 30, 2026</time>
+                    <h3>Core Computer Foundations Every Tech Professional Must Know</h3>
+                    <p>A deep-dive breakdown explaining why solid core understanding of OS, DBMS, and Network Architectures is your ultimate career base.</p>
+                </article>
+
+                <article class="card blog-card">
+                    <time datetime="2026-04-14">April 14, 2026</time>
+                    <h3>Finding the Right Internship: Real-World Corporate Exposure</h3>
+                    <p>Stop blindly applying online. Learn how to identify verified industry internship programs that offer direct professional experiences.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="hero-shell" id="contact">
+            <div class="section-title">
+                <div>
+                    <p class="section-badge"><span>Enrollment</span> Start Your Journey</p>
+                    <h2>Ready to launch your future? Let's build it together.</h2>
+                </div>
+                <p>Take the first step toward building future-ready skills and a strong career foundation. Fill out the application form below to book your slot.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="card contact-highlight">
+                    <strong>Admissions & Queries</strong>
+                    <p>Our academic counselors and student support mentors are available to guide you through the enrollment process and help select the right path.</p>
+                    <div class="contact-details">
+                        <div>
+                            <strong>Helpline & WhatsApp</strong>
+                            <a href="tel:+919492182286">+91 94921-82286</a>
+                        </div>
+                        <div>
+                            <strong>Admissions Email</strong>
+                            <a href="mailto:nexoragen3@gmail.com">nexoragen3@gmail.com</a>
+                        </div>
+                        <div>
+                            <strong>Campus Desk Hours</strong>
+                            <span>Monday – Saturday | 9:00 AM – 6:00 PM IST</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="card contact-card" action="#" method="post">
+                    <label>
+                        <span>Full Name</span>
+                        <input type="text" name="name" placeholder="Enter your full name" required />
+                    </label>
+                    <label>
+                        <span>Email Address</span>
+                        <input type="email" name="email" placeholder="student@example.com" required />
+                    </label>
+                    <label>
+                        <span>Select Your Learning Path</span>
+                        <select name="selected_path" required>
+                            <option value="" disabled selected>Choose a program...</option>
+                            <option value="path_1">Path 1: Career & Communication Mastery (₹999)</option>
+                            <option value="path_2">Path 2: Innovation & Future Skills (₹1,119)</option>
+                            <option value="path_3">Path 3: Career Essentials (₹1,399)</option>
+                            <option value="path_4">Path 4: Core Computer Foundations (₹1,449)</option>
+                            <option value="bundle_all">All-in-One Complete Bundle (₹4,499) - BEST VALUE</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Tell Us Your Career Goals</span>
+                        <textarea name="message" placeholder="What skills are you looking to build or what projects do you want to launch?" required></textarea>
+                    </label>
+                    <button type="submit">Submit Application</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="hero-shell">
+            <div class="newsletter">
+                <div>
+                    <strong>Subscribe for Career & Tech Insights</strong>
+                    <p>Get monthly updates with placement blueprints, interview prep tools, hackathon alerts, and AI trends.</p>
+                </div>
+                <form class="newsletter-form" action="#" method="post">
+                    <input type="email" name="newsletter" placeholder="Enter your email address" required />
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="footer">
+            <div class="footer-column">
+                <a href="#top" class="brand" style="font-weight: 800; letter-spacing: -0.5px;">NEXORA</a>
+                <p class="text-muted">Complete Learning. Real Growth. Bright Future. Providing essential paths for aspiring students to build future-ready skills and lead the world.</p>
+            </div>
+            <div class="footer-column">
+                <strong>Programs</strong>
+                <a href="#services">Learning Paths</a>
+                <a href="#features">Why Nexora</a>
+                <a href="#portfolio">Achievements</a>
+                <a href="#pricing">Course Pricing</a>
+                <a href="#contact">Enroll Now</a>
+            </div>
+            <div class="footer-column">
+                <strong>Student Support</strong>
+                <a href="#faq">FAQs</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Student Code of Conduct</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
